@@ -6,11 +6,11 @@ import { SiteHeader } from "@/components/site-header";
 import { featuredPosts } from "@/components/post-data";
 
 const domains = [
-  { name: "租房", note: "合同、押金、入住与退租", mark: "01" },
-  { name: "求职", note: "招聘、面试、合同与离职", mark: "02" },
-  { name: "留学", note: "选校、签证、住宿与缴费", mark: "03" },
-  { name: "旅行", note: "预订、交通、安全与退改", mark: "04" },
-  { name: "消费", note: "订阅、售后、二手与大额购买", mark: "05" },
+  { name: "租房", value: "租房", note: "合同、押金、入住与退租", mark: "01" },
+  { name: "求职", value: "求职", note: "招聘、面试、合同与离职", mark: "02" },
+  { name: "留学", value: "教育留学", note: "选校、签证、住宿与缴费", mark: "03" },
+  { name: "旅行", value: "旅行", note: "预订、交通、安全与退改", mark: "04" },
+  { name: "消费", value: "消费", note: "订阅、售后、二手与大额购买", mark: "05" },
 ];
 
 export default function Home() {
@@ -70,7 +70,7 @@ export default function Home() {
             {domains.map((domain) => (
               <Link
                 className="domain-tile"
-                href={`/search?domain=${encodeURIComponent(domain.name)}`}
+                href={`/search?domain=${encodeURIComponent(domain.value)}`}
                 key={domain.name}
               >
                 <span className="domain-number">{domain.mark}</span>

@@ -113,7 +113,7 @@ img { max-width: 100%; }
 
 .post-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 24px; }
 .post-card {
-  display: flex; flex-direction: column; min-height: 530px; padding: 22px;
+  display: flex; flex-direction: column; min-width: 0; min-height: 530px; padding: 22px;
   border: 2px solid var(--ink); background: var(--surface); box-shadow: var(--shadow-sm);
 }
 .card-experience { background: var(--acid-pale); }
@@ -140,7 +140,8 @@ img { max-width: 100%; }
 .action-box { display: grid; grid-template-columns: 48px 1fr; gap: 12px; padding: 15px; border: 2px solid var(--ink); background: var(--surface); }
 .action-box span { align-self: start; padding: 4px 6px; background: var(--ink); color: white; font-size: 11px; font-weight: 850; text-align: center; }
 .action-box p { margin: 0; font-weight: 750; line-height: 1.5; }
-.trust-row { display: flex; gap: 10px; justify-content: space-between; margin-top: auto; padding-top: 22px; color: var(--ink-muted); font-size: 10px; }
+.trust-row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; margin-top: auto; padding-top: 22px; color: var(--ink-muted); font-size: 10px; }
+.trust-row span { min-width: 0; overflow-wrap: anywhere; }
 .trust-row span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .card-footer { display: flex; flex-wrap: wrap; gap: 10px 16px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--ink); font-size: 11px; font-weight: 700; }
 .card-footer a { margin-left: auto; color: var(--cobalt-dark); }

@@ -38,6 +38,7 @@
 - [`docs/TRUST_AND_SAFETY.md`](docs/TRUST_AND_SAFETY.md)
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
 - [`docs/API_CONTRACT.md`](docs/API_CONTRACT.md)
+- [`docs/OPERATIONS_TENCENT_CLOUD.md`](docs/OPERATIONS_TENCENT_CLOUD.md)
 
 ## 最快运行：完整本地版
 
