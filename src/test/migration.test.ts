@@ -1,17 +1,21 @@
 import { PGlite } from "@electric-sql/pglite";
-import { readFile } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
 describe("database migration", () => {
   it("creates the V1 relational model on PostgreSQL-compatible storage", async () => {
     const database = new PGlite();
-    const migration = await readFile(
-      join(process.cwd(), "db", "migrations", "001_initial.sql"),
-      "utf8",
-    );
+    const migrationDirectory = join(process.cwd(), "db", "migrations");
+    const migrations = (await readdir(migrationDirectory))
+      .filter((filename) => filename.endsWith(".sql"))
+      .sort();
 
-    await database.exec(migration);
+    for (const filename of migrations) {
+      await database.exec(
+        await readFile(join(migrationDirectory, filename), "utf8"),
+      );
+    }
     const result = await database.query<{ table_name: string }>(`
       SELECT table_name
         FROM information_schema.tables
