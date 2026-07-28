@@ -1,0 +1,40 @@
+services:
+  migrate:
+    image: ghcr.io/ygc1229-art/avoid-pitfalls:migrate-${APP_VERSION:-latest}
+    env_file: .env
+    restart: "no"
+    profiles: ["tools"]
+
+  web:
+    image: ghcr.io/ygc1229-art/avoid-pitfalls:${APP_VERSION:-latest}
+    env_file: .env
+    restart: unless-stopped
+    expose:
+      - "3000"
+    networks:
+      - app
+
+  caddy:
+    image: caddy:2.10-alpine
+    restart: unless-stopped
+    depends_on:
+      - web
+    environment:
+      APP_DOMAIN: ${APP_DOMAIN}
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - app
+
+networks:
+  app:
+
+volumes:
+  caddy_data:
+  caddy_config:

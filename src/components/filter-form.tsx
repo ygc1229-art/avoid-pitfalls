@@ -10,7 +10,13 @@ type FilterValues = {
 };
 
 const selectOptions = {
-  domain: ["租房", "求职", "留学", "旅行", "消费"],
+  domain: [
+    ["租房", "租房"],
+    ["求职", "求职"],
+    ["教育留学", "留学"],
+    ["旅行", "旅行"],
+    ["消费", "消费"],
+  ],
   region: [
     ["CN", "中国"],
     ["HK", "中国香港"],
@@ -76,7 +82,9 @@ export function FilterForm({ values }: { values: FilterValues }) {
           <span>场景</span>
           <select name="domain" defaultValue={values.domain ?? ""}>
             <option value="">全部场景</option>
-            {selectOptions.domain.map((item) => <option value={item} key={item}>{item}</option>)}
+            {selectOptions.domain.map(([value, label]) => (
+              <option value={value} key={value}>{label}</option>
+            ))}
           </select>
         </label>
         <label>
