@@ -24,6 +24,15 @@ type GoldSample = {
 
 const SYSTEM_EMAIL = "system-editor@avoid-pitfalls.invalid";
 const SYSTEM_NAME = "避坑指南系统编辑部";
+const REGION_CODE_PATTERN = /^[A-Z]{2}(?:-[A-Z0-9]{2,8})?$/;
+
+function normalizeRegion(rawRegion: string) {
+  const value = rawRegion.trim();
+  if (REGION_CODE_PATTERN.test(value)) {
+    return { code: value, name: value };
+  }
+  return { code: "GLOBAL", name: "全球或因地区而异" };
+}
 
 async function loadSamples() {
   const source = await fs.readFile(
@@ -81,10 +90,11 @@ async function seedSample(
   systemEditorId: string,
   sample: GoldSample,
 ) {
+  const region = normalizeRegion(sample.country_region_code);
   await client.query(
     `INSERT INTO regions (code, name)
-     VALUES ($1, $1) ON CONFLICT (code) DO NOTHING`,
-    [sample.country_region_code],
+     VALUES ($1, $2) ON CONFLICT (code) DO UPDATE SET name = EXCLUDED.name`,
+    [region.code, region.name],
   );
   const post = await client.query<{ id: string }>(
     `INSERT INTO posts
@@ -122,7 +132,7 @@ async function seedSample(
       "适用范围与例外以来源页面和卡片说明为准。",
       sample.domain,
       sample.primary_category_code,
-      sample.country_region_code,
+      region.code,
       sample.impact_level_u,
       sample.moderation_risk_m,
       sample.card_type,
@@ -136,7 +146,7 @@ async function seedSample(
   await client.query(
     `INSERT INTO post_regions (post_id, region_code, relation_type)
      VALUES ($1, $2, 'applies_to') ON CONFLICT DO NOTHING`,
-    [postId, sample.country_region_code],
+    [postId, region.code],
   );
   await client.query(
     `DELETE FROM source_evidence
